@@ -19,7 +19,7 @@ on:
   
 # Make env var reflect presence of token
 env:
-  PAT_EXISTS: ${{ secrets.PAT_TOKEN }}
+  PAT_EXISTS: ${{ secrets.DASHBOARD_REPORT_PAT }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -29,7 +29,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [6.x, 18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -72,7 +72,7 @@ jobs:
       with:
         external_repository: mspnp/intern-js-pipeline
         publish_branch: gh-pages
-        personal_token: ${{ secrets.PAT_TOKEN }}
+        personal_token: ${{ secrets.DASHBOARD_REPORT_PAT }}
         publish_dir: ${{steps.download.outputs.download-path}}
         destination_dir: test-reports/${{ github.repository }}
         keep_files: true
@@ -94,7 +94,7 @@ jobs:
       # Runs a single command using the runners shell
       - name: Notify docusaurus repo
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DASHBOARD_REPORT_PAT }}
         if: "${{ env.PAT_EXISTS != '' }}"
         run: |
           gh api repos/mspnp/intern-js-pipeline/dispatches \
